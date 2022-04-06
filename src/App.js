@@ -4,7 +4,7 @@ import axios from "axios";
 function App() {
   const canvasElement = useRef();
 
-  const [elements, _] = useState([
+  const [elements, setElements] = useState([
     { alphabet: "A", value: 1 },
     { alphabet: "B", value: 2 },
     { alphabet: "C", value: 3 },
@@ -31,14 +31,12 @@ function App() {
     y: 50,
   };
 
-  // useEffect(() => {
-  //   axios
-  //     .get("https://equation-calc.herokuapp.com/getAlphabets/")
-  //     .then((response) => setOperandsArr(response.data))
-  //     .catch((err) => console.log(err));
-  //   //for testing
-  //   //setOperandsArr([{alphabet: "A", value:"1"},{alphabet: "B", value:"2"},{alphabet:"C", value:"3"}])
-  // }, []);
+  useEffect(() => {
+    axios
+      .get("https://get-alphabet.herokuapp.com/alphabet")
+      .then((response) => setElements(response.data))
+      .catch((err) => console.log(err));
+  }, []);
 
   function drag(e) {
     setDragElement(
@@ -122,10 +120,6 @@ function App() {
         );
       }
     }
-  }
-
-  function renderComponent(component) {
-    return component;
   }
 
   return (
