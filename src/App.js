@@ -1,3 +1,5 @@
+/* eslint no-eval: 0 */
+
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 
