@@ -1,7 +1,6 @@
 /* eslint no-eval: 0 */
 
 import React, { useEffect, useState, useRef } from "react";
-import axios from "axios";
 
 function App() {
   const canvasElement = useRef();
@@ -34,9 +33,9 @@ function App() {
   };
 
   useEffect(() => {
-    axios
-      .get("https://get-alphabet.herokuapp.com/alphabet")
-      .then((response) => setElements(response.data))
+    fetch("https://get-alphabet.herokuapp.com/alphabet")
+      .then((res) => res.json())
+      .then((result) => setElements(result.alphabet))
       .catch((err) => console.log(err));
   }, []);
 
@@ -147,6 +146,7 @@ function App() {
         <div className="flex justify-start items-center mb-6">
           {elements.map((element) => (
             <div
+              key={element.value}
               className="w-[100px] h-[100px] mx-4 flex text-xl justify-center items-center cursor-pointer bg-lime-200"
               draggable="true"
               onDragStart={(e) => drag(e)}
@@ -160,6 +160,7 @@ function App() {
         <div className="flex justify-start items-center mb-6">
           {arithmeticOperators.map((arithmeticOperator) => (
             <div
+              key={arithmeticOperator}
               className="w-[100px] h-[100px] border mx-4 flex text-xl justify-center items-center cursor-pointer bg-green-200"
               draggable="true"
               onDragStart={(e) => drag(e)}
@@ -171,6 +172,7 @@ function App() {
 
           {comparisionOperators.map((comparisionOperator) => (
             <div
+              key={comparisionOperator}
               className="w-[100px] h-[100px] border mx-4 flex text-xl justify-center items-center bg-green-200"
               data-value={currentComparator}
               onClick={(e) =>
@@ -202,7 +204,10 @@ function App() {
           ref={canvasElement}
         >
           {finalEquation.map((elem, index) => (
-            <div className="relative flex items-center justify-center w-[100px] h-[100px] border mx-4">
+            <div
+              className="relative flex items-center justify-center w-[100px] h-[100px] border mx-4"
+              key={index}
+            >
               <span
                 className="flex h-4 w-4 items-center justify-center absolute top-2 right-2 cursor-pointer z-10 text-red-600"
                 onClick={(e) => removeElement(e)}
